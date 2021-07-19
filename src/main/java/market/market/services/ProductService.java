@@ -3,6 +3,8 @@ package market.market.services;
 import lombok.RequiredArgsConstructor;
 import market.market.model.Product;
 import market.market.repositories.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +18,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product findProductById(Long id) {
+    public Product findById(Long id) {
         return productRepository.getById(id);
     }
 
@@ -28,14 +30,7 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public List<Product> findByPriceGreaterThan(int minPrice) {
-        return productRepository.findByPriceGreaterThan(minPrice);
-    }
-
-    public List<Product> findByPriceLessThan(int maxPrice) {
-        return productRepository.findByPriceLessThan(maxPrice);
-    }
-    public List<Product> findByPriceBetween(int minPrice, int maxPrice) {
-        return productRepository.findByPriceBetween(minPrice, maxPrice);
+    public Page<Product> getPage(int pageNumber, int size) {
+        return productRepository.findAll(PageRequest.of(pageNumber, size));
     }
 }

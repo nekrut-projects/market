@@ -3,50 +3,34 @@ package market.market.controllers;
 import lombok.RequiredArgsConstructor;
 import market.market.model.Product;
 import market.market.services.ProductService;
-import org.springframework.stereotype.Controller;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping(value = "/add_form")
-    public String getAddForm(){
-        return "add_form";
+    @GetMapping("/products/{id}")
+    public Product findById(@PathVariable Long id) {
+        return productService.findById(id);
     }
 
-    @PostMapping(value = "/add")
-    public String addProduct(@RequestParam String title, @RequestParam int price){
-        productService.addProduct(new Product(title, price));
-        return "redirect:/add_form";
+    @GetMapping("/products")
+    public Page<Product> getPage(@RequestParam(name = "p") int pageNumber) {
+        return productService.getPage(pageNumber - 1, 7);
     }
 
-    @GetMapping(value = "/del_product/{id}")
-    public String delProduct(@PathVariable Long id){
+    @GetMapping("/products/del")
+    public void deleteProduct(@RequestParam(name = "id") Long id) {
         productService.deleteProductById(id);
-        return "redirect:/";
     }
 
-    @GetMapping(value = "/products/price_greater")
-    @ResponseBody
-    public List<Product> findByPriceGreaterThan(@RequestParam(name = "min") int min) {
-        return productService.findByPriceGreaterThan(min);
-    }
+//    public List<Product> findAll() {
+//    @GetMapping("/products")
+//        return productService.findAllProducts();
+//    }
 
-    @GetMapping(value = "/products/price_less")
-    @ResponseBody
-    public List<Product> findByPriceLessThan(@RequestParam(name = "max") int max) {
-        return productService.findByPriceLessThan(max);
-    }
-
-    @GetMapping(value = "/products/price_between")
-    @ResponseBody
-    public List<Product> findByPriceGreaterThan(@RequestParam(name = "min") int min,
-                                                @RequestParam(name = "max") int max) {
-        return productService.findByPriceBetween(min, max);
-    }
 }

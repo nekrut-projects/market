@@ -1,43 +1,33 @@
-CREATE TABLE IF NOT EXISTS products (id bigserial, title VARCHAR(255), price int, PRIMARY KEY (id));
-INSERT INTO products (title, price)
+CREATE TABLE IF NOT EXISTS
+categories (
+    id bigserial,
+    title VARCHAR(255),
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp,
+    PRIMARY KEY (id)
+);
+insert into categories (title) values ('category_1');
+
+CREATE TABLE IF NOT EXISTS
+products (
+    id bigserial,
+    title VARCHAR(255),
+    price int,
+    category_id bigint references categories (id),
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp,
+    PRIMARY KEY (id)
+);
+
+INSERT INTO products (title, price, category_id)
 VALUES
-('Product_1', 100),
-('Product_2', 20),
-('Product_3', 440),
-('Product_4', 78),
-('Product_5', 12),
-('Product_6', 1500),
-('Product_7', 205),
-('Product_8', 40),
-('Product_9', 8),
-('Product_10', 712),
-('Product_11', 190),
-('Product_12', 250),
-('Product_13', 430),
-('Product_14', 780),
-('Product_15', 19),
-('Product_16', 160),
-('Product_17', 65),
-('Product_18', 30),
-('Product_19', 48),
-('Product_20', 52),
-('Product_21', 100),
-('Product_22', 20),
-('Product_23', 440),
-('Product_24', 78),
-('Product_25', 12),
-('Product_26', 1500),
-('Product_27', 205),
-('Product_28', 40),
-('Product_29', 8),
-('Product_30', 712),
-('Product_31', 190),
-('Product_32', 250),
-('Product_33', 430),
-('Product_34', 780),
-('Product_35', 19),
-('Product_36', 160),
-('Product_37', 65),
-('Product_38', 30),
-('Product_39', 48),
-('Product_40', 52);
+('Product_1', 100, 1),
+('Product_2', 20, 1),
+('Product_3', 440, 1),
+('Product_4', 78, 1),
+('Product_5', 12, 1),
+('Product_6', 1500, 1),
+('Product_7', 205, 1),
+('Product_8', 40, 1),
+('Product_9', 8, 1),
+('Product_10', 712, 1);

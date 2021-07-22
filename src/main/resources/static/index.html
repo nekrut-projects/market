@@ -14,8 +14,6 @@
 <body ng-controller = "indexController">
     <div class="container">
         <h2>Products list</h2>
-        <h5>Count products: {{totalProducts}}</h5>
-        <h5 style="text-align: center;">Current page: {{currentPage}}</h5>
         <table class="table">
             <thead>
             <tr>
@@ -34,8 +32,13 @@
                 </td>
             </tr>
         </table>
-        <button class="btn btn-primary" ng-click="prevPage()">Previous page</button>
-        <button class="btn btn-primary" ng-click="nextPage()">Next page</button>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li ng-repeat="p in navList" class="page-item">
+                    <a class="page-link" ng-click="showPage(p)">{{p}}</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </body>
 

@@ -14,20 +14,16 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public List<Product> findAllProducts() {
-        return productRepository.findAll();
-    }
-
     public Product findById(Long id) {
-        return productRepository.getById(id);
+        return productRepository.findById(id).get();
     }
 
-    public void addProduct(Product product) {
-        productRepository.save(product);
-    }
-
-    public void deleteProductById(long id) {
+    public void deleteById(long id) {
         productRepository.deleteById(id);
+    }
+
+    public Product save(Product newProduct) {
+        return productRepository.save(newProduct);
     }
 
     public Page<Product> getPage(int pageNumber, int size) {

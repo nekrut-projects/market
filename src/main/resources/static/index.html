@@ -12,34 +12,56 @@
 </head>
 
 <body ng-controller = "indexController">
-    <div class="container">
-        <h2>Products list</h2>
-        <table class="table">
-            <thead>
-            <tr>
-                <td>ID</td>
-                <td>Title</td>
-                <td>Price</td>
-                <td></td>
-            </tr>
-            </thead>
-            <tr ng-repeat="p in products">
-                <td>{{p.id}}</td>
-                <td>{{p.title}}</td>
-                <td>{{p.price}}</td>
-                <td>
-                    <button class="btn btn-warning" ng-click="deleteProduct(p.id)">Delete</button>
-                </td>
-            </tr>
-        </table>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li ng-repeat="p in navList" class="page-item">
-                    <a class="page-link" ng-click="showPage(p)">{{p}}</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+<div class="container">
+    <h2>Products list</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Title</td>
+            <td>Price</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tr ng-repeat="p in productsPage">
+            <td>{{p.id}}</td>
+            <td>{{p.title}}</td>
+            <td>{{p.price}}</td>
+            <td>
+                <button class="btn btn-warning" ng-click="addToCart(p.id)">В корзину</button>
+            </td>
+        </tr>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li ng-repeat="p in navList" class="page-item">
+                <a class="page-link" ng-click="showPage(p)">{{p}}</a>
+            </li>
+        </ul>
+    </nav>
+    <h3>Корзина</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Название</td>
+            <td>Количество</td>
+            <td>Цена</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="oi in cart.items">
+            <td>{{oi.productTitle}}</td>
+            <td>{{oi.quantity}}</td>
+            <td>{{oi.quantity + ' x ' + oi.pricePerProduct + ' = ' + oi.price}}</td>
+            <td>
+                <button class="btn btn-danger">Удалить (X)</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div><button class="btn btn-danger" ng-click="placeAnOrder()">Оформить заказ</button></div>
+</div>
 </body>
 
 </html>

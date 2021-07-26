@@ -8,14 +8,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public Product findById(Long id) {
-        return productRepository.findById(id).get();
+    public Optional<Product> findById(Long id) {
+        return productRepository.findById(id);
     }
 
     public void deleteById(long id) {

@@ -1,21 +1,31 @@
 angular.module('market', []).controller('indexController', function ($scope, $http) {
-    const contextPath = 'http://localhost:8080/market';
+    const contextPath = 'http://localhost:8080/market/api/v1';
 
     $scope.showPage = function(pageNumber = 1){
         $http({
-            url: contextPath + '/api/v1/products',
+            url: contextPath + '/products',
             method: 'GET',
             params: {'p': pageNumber}
         }).then(function(response){
-            $scope.products = response.data.content;
-            $scope.navList = $scope.generatePagesIndexes(1, response.data.totalPages);
             console.log(response);
+            $scope.productsPage = response.data.content;
+            $scope.navList = $scope.generatePagesIndexes(1, response.data.totalPages);
         });
     };
 
+    $scope.showCart = function(){
+        $http({
+            url: contextPath + '/cart',
+            method: 'GET'
+        }).then(function (response) {
+            console.log(response);
+            $scope.cart = response.data;
+        });
+    }
+
     $scope.deleteProduct = function(id){
         $http({
-            url: contextPath + '/api/v1/products/' + id,
+            url: contextPath + '/products/' + id,
             method: 'DELETE',
             params: {'id': id}
         }).then(function(response){
@@ -25,7 +35,7 @@ angular.module('market', []).controller('indexController', function ($scope, $ht
 
     $scope.findById = function(id){
         $http({
-            url: contextPath + '/api/v1/products/' + id,
+            url: contextPath + '/products/' + id,
             method: 'GET',
             params: {'id': id}
         }).then(function(response){
@@ -42,5 +52,26 @@ angular.module('market', []).controller('indexController', function ($scope, $ht
             return arr;
     }
 
+
+    $scope.addToCart = function (productId) {
+        $http({
+            url: contextPath + '/cart/add/' + productId,
+            method: 'GET'
+        }).then(function (response) {
+            $scope.showCart();
+        });
+    }
+
+    $scope.placeAnOrder = function() {
+        $http({
+            url: contextPath + '/cart/order',
+            method: 'GET'
+        }).then(function (response) {
+            console.log(response);
+            $scope.showCart();
+        });
+    }
+
     $scope.showPage();
+    $scope.showCart()
 });

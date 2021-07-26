@@ -1,8 +1,8 @@
 package market.market.controllers;
 
 import lombok.RequiredArgsConstructor;
-import market.market.dto.PageDto;
 import market.market.dto.ProductDto;
+import market.market.exceptions.ResourceNotFoundException;
 import market.market.model.Category;
 import market.market.model.Product;
 import market.market.services.CategoryService;
@@ -19,13 +19,14 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto findById(@PathVariable Long id) {
-        return new ProductDto(productService.findById(id));
+        Product p = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found, id: " + id));
+        return new ProductDto(p);
     }
 
     @GetMapping
-    public PageDto<ProductDto> getPage(@RequestParam(name = "p", defaultValue = "1") int pageNumber) {
-        Page<Product> page = productService.getPage(pageNumber - 1, 7);
-        return new PageDto<>(page);
+    public Page<ProductDto> getPage(@RequestParam(name = "p", defaultValue = "1") int pageNumber) {
+        Page<ProductDto> page = productService.getPage(pageNumber - 1, 7).map(ProductDto::new);
+        return page;
     }
 
     @DeleteMapping("/{id}")
@@ -34,7 +35,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product createNewProduct(@RequestBody ProductDto productDto) {
+    public ProductDto createNewProduct(@RequestBody ProductDto productDto) {
         Product product = new Product();
         product.setId(null);
         product.setTitle(productDto.getTitle());
@@ -42,6 +43,6 @@ public class ProductController {
         Category category = categoryService.findByTitle(productDto.getCategory());
         product.setCategory(category);
 
-        return productService.save(product);
+        return new ProductDto(productService.save(product));
     }
 }

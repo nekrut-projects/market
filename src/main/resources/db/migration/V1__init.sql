@@ -1,18 +1,18 @@
+
 CREATE TABLE IF NOT EXISTS
 categories (
     id bigserial,
-    title VARCHAR(255),
+    title bigint,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     PRIMARY KEY (id)
 );
-insert into categories (title) values ('category_1');
 
 CREATE TABLE IF NOT EXISTS
 products (
     id bigserial,
     title VARCHAR(255),
-    price int,
+    price numeric(8, 2) not null,
     category_id bigint references categories (id),
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
@@ -31,3 +31,25 @@ VALUES
 ('Product_8', 40, 1),
 ('Product_9', 8, 1),
 ('Product_10', 712, 1);
+
+CREATE TABLE IF NOT EXISTS
+orders (
+    id bigserial,
+    user_id bigint,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS
+order_items (
+    id bigserial,
+    order_id bigint references orders (id),
+    product_id bigint references products(id),
+    price numeric(8, 2) not null,
+    quantity int,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp,
+    PRIMARY KEY (id)
+);
+

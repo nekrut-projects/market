@@ -1,77 +1,78 @@
-angular.module('market', []).controller('indexController', function ($scope, $http) {
+(function ($localStorage) {
+    'use strict';
+
+    angular
+        .module('market', ['ngRoute', 'ngStorage'])
+        .config(config)
+        .run(run);
+
+    function config($routeProvider) {
+        $routeProvider
+            .when('/', {
+                templateUrl: 'main/main.html',
+                controller: 'mainController'
+            })
+            .when('/products', {
+                templateUrl: 'products/products.html',
+                controller: 'productsController'
+            })
+            .when('/cart', {
+                templateUrl: 'cart/cart.html',
+                controller: 'cartController'
+            })
+            .when('/orders', {
+                templateUrl: 'orders/orders.html',
+                controller: 'ordersController'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+    }
+
+    function run($rootScope, $http, $localStorage) {
+        if ($localStorage.marketUser) {
+            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.marketUser.token;
+        }
+    }
+})();
+
+angular.module('market').controller('indexController', function ($rootScope, $scope, $http, $localStorage) {
     const contextPath = 'http://localhost:8080/market/api/v1';
 
-    $scope.showPage = function(pageNumber = 1){
-        $http({
-            url: contextPath + '/products',
-            method: 'GET',
-            params: {'p': pageNumber}
-        }).then(function(response){
-            console.log(response);
-            $scope.productsPage = response.data.content;
-            $scope.navList = $scope.generatePagesIndexes(1, response.data.totalPages);
-        });
+    $scope.tryToAuth = function () {
+        $http.post(contextPath + '/auth', $scope.user)
+            .then(function successCallback(response) {
+                if (response.data.token) {
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                    $localStorage.marketUser = {username: $scope.user.username, token: response.data.token};
+
+                    $scope.user.username = null;
+                    $scope.user.password = null;
+                }
+            }, function errorCallback(response) {
+            });
     };
 
-    $scope.showCart = function(){
-        $http({
-            url: contextPath + '/cart',
-            method: 'GET'
-        }).then(function (response) {
-            console.log(response);
-            $scope.cart = response.data;
-        });
-    }
-
-    $scope.deleteProduct = function(id){
-        $http({
-            url: contextPath + '/products/' + id,
-            method: 'DELETE',
-            params: {'id': id}
-        }).then(function(response){
-            $scope.showPage();
-        });
+    $scope.tryToLogout = function () {
+        $scope.clearUser();
+        if ($scope.user.username) {
+            $scope.user.username = null;
+        }
+        if ($scope.user.password) {
+            $scope.user.password = null;
+        }
     };
 
-    $scope.findById = function(id){
-        $http({
-            url: contextPath + '/products/' + id,
-            method: 'GET',
-            params: {'id': id}
-        }).then(function(response){
-            console.log(response.data);
-            $scope.product = response.data;
-        });
+    $scope.clearUser = function () {
+        delete $localStorage.marketUser;
+        $http.defaults.headers.common.Authorization = '';
     };
 
-    $scope.generatePagesIndexes = function (startPage, endPage) {
-            let arr = [];
-            for (let i = startPage; i < endPage + 1; i++) {
-                arr.push(i);
-            }
-            return arr;
-    }
-
-
-    $scope.addToCart = function (productId) {
-        $http({
-            url: contextPath + '/cart/add/' + productId,
-            method: 'GET'
-        }).then(function (response) {
-            $scope.showCart();
-        });
-    }
-
-    $scope.placeAnOrder = function() {
-        $http({
-            url: contextPath + '/cart/order',
-            method: 'GET'
-        }).then(function (response) {
-            console.log(response);
-            $scope.showCart();
-        });
-    }
-
-    $scope.showPage();
-    $scope.showCart()
+    $rootScope.isUserLoggedIn = function () {
+        if ($localStorage.marketUser) {
+            return true;
+        } else {
+            return false;
+        }
+    };
 });

@@ -1,0 +1,28 @@
+<div>
+    <h2>Products list</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Title</td>
+            <td>Price</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tr ng-repeat="p in productsPage">
+            <td>{{p.id}}</td>
+            <td>{{p.title}}</td>
+            <td>{{p.price}}</td>
+            <td>
+                <button class="btn btn-warning" ng-click="addToCart(p.id)">В корзину</button>
+            </td>
+        </tr>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li ng-repeat="p in navList" class="page-item">
+                <a class="page-link" ng-click="showPage(p)">{{p}}</a>
+            </li>
+        </ul>
+    </nav>
+</div>

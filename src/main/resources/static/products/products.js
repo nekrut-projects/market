@@ -5,12 +5,20 @@ angular.module('market').controller('productsController', function ($scope, $htt
         $http({
             url: contextPath + '/api/v1/products',
             method: 'GET',
-            params: {'p': pageNumber}
-        }).then(function(response){
-            console.log(response);
-            $scope.productsPage = response.data.content;
-            $scope.navList = $scope.generatePagesIndexes(1, response.data.totalPages);
-        });
+            params: {
+                page: pageNumber,
+                filters: $scope.filters
+            }
+        }).then(
+              function successCallback(response) {
+                  console.log(response);
+                  $scope.productsPage = response.data.content;
+                  $scope.navList = $scope.generatePagesIndexes(1, response.data.totalPages);
+              },
+              function errorCallback(response) {
+                  alert(response.data.messages);
+              }
+          );
     };
 
     $scope.deleteProduct = function(id){
@@ -39,14 +47,6 @@ angular.module('market').controller('productsController', function ($scope, $htt
             }
             return arr;
     }
-
-//    $scope.isUserLoggedIn = function () {
-//        if ($localStorage.marketUser) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    };
 
     $scope.addToCart = function (productId) {
         $http({

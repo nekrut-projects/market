@@ -10,6 +10,7 @@ import gb.market.services.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
@@ -24,9 +25,12 @@ public class ProductController {
     }
 
     @GetMapping
-    public Page<ProductDto> getPage(@RequestParam(name = "p", defaultValue = "1") int pageNumber) {
-        Page<ProductDto> page = productService.getPage(pageNumber - 1, 7).map(ProductDto::new);
-        return page;
+    public Page<ProductDto> showPage(
+            @RequestParam(name = "page", defaultValue = "1") int pageNumber,
+            @RequestParam(name = "filters", required = false) String filters)
+    {
+        return productService.showPage(pageNumber - 1, 7, filters)
+                .map(ProductDto::new);
     }
 
     @DeleteMapping("/{id}")

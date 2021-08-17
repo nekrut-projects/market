@@ -65,10 +65,15 @@ angular.module('market').controller('cartController', function ($scope, $http, $
                     address: $scope.order_info.address,
                     phone: $scope.order_info.phone
                 }
-            }).then(function (response) {
-                $scope.showCart();
-                console.log(response);
-            });
+            }).then(
+                function successCallback(response) {
+                    alert('Заказ создан');
+                    $scope.showCart();
+                },
+                function errorCallback(response) {
+                    alert(response.data.messages);
+                }
+            );
         }
     $scope.showCart();
 });

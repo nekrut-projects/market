@@ -1,18 +1,6 @@
 angular.module('market').controller('ordersController', function ($scope, $http, $localStorage) {
     const contextPath = 'http://localhost:8080/market';
 
-    $scope.loadOrders = function () {
-        if (!$scope.isUserLoggedIn()) {
-            return;
-        }
-        $http({
-            url: contextPath + '/api/v1/orders',
-            method: 'GET'
-        }).then(function (response) {
-            $scope.orders = response.data;
-        });
-    }
-
     $scope.createOrder = function() {
         $http({
             url: contextPath + '/api/v1/orders/add',
@@ -29,7 +17,7 @@ angular.module('market').controller('ordersController', function ($scope, $http,
             return;
         }
         $http({
-            url: contextPath + '/api/v1/orders/user',
+            url: contextPath + '/api/v1/orders',
             method: 'GET'
         }).then(function (response) {
             $scope.orders = response.data;

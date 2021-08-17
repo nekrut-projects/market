@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -44,9 +45,9 @@ public class OrderService {
         cart.clear();
     }
 
-    public List<Order> findAll() {
-        return orderRepository.findAll();
-    }
+//    public List<Order> findAll() {
+//        return orderRepository.findAll();
+//    }
 
     public List<Order> findByUser(User user) {
         return orderRepository.findByUser(user);
@@ -55,5 +56,10 @@ public class OrderService {
     public List<OrderItem> getItemsOrder(Long orderId){
         Order order = orderRepository.getById(orderId);
         return order.getOrderItems();
+    }
+
+    @Transactional
+    public List<Order> findByUsername(String username) {
+        return orderRepository.findByUsername(username);
     }
 }

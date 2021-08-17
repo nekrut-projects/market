@@ -12,7 +12,7 @@ public class GlobalHandlerExceptions {
         return new ResponseEntity<>(new MarketError(e.getMessage()), HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler
-    public ResponseEntity<?> catchIncorrectDataException(IncorrectUserDataException e){
+    public ResponseEntity<?> catchIncorrectDataException(InvalidInputDataException e){
         return new ResponseEntity<>(new MarketError(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

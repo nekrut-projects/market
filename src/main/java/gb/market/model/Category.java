@@ -14,6 +14,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Category {
+    public Category(String title) {
+        this.title = title;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

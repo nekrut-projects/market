@@ -45,10 +45,6 @@ public class OrderService {
         cart.clear();
     }
 
-//    public List<Order> findAll() {
-//        return orderRepository.findAll();
-//    }
-
     public List<Order> findByUser(User user) {
         return orderRepository.findByUser(user);
     }

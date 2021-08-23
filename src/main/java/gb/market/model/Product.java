@@ -15,6 +15,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Product {
+    public Product(String title, BigDecimal price, Category category) {
+        this.title = title;
+        this.price = price;
+        this.category = category;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

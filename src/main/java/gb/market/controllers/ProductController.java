@@ -8,7 +8,10 @@ import gb.market.exceptions.ResourceNotFoundException;
 import gb.market.model.Product;
 import gb.market.services.ProductService;
 import org.springframework.data.domain.Page;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 
 @RestController
@@ -27,7 +30,7 @@ public class ProductController {
     @GetMapping
     public Page<ProductDto> showPage(
             @RequestParam(name = "page", defaultValue = "1") int pageNumber,
-            @RequestParam(name = "filters", required = false) String filters)
+            @RequestParam(name = "filters", required = false) Map<String, String> filters)
     {
         return productService.showPage(pageNumber - 1, 7, filters)
                 .map(ProductDto::new);

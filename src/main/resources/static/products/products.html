@@ -1,0 +1,49 @@
+<div>
+    <h2>Products list</h2>
+    <form method="get" novalidate ng-submit="showPage(1)">
+        <div class="form-group col-md-6">
+            <label for="minPriceField">Минимальная цена</label>
+            <input class="form-control" type="text" ng-model="filters.minPrice" id="minPriceField">
+        </div>
+        <br>
+        <div class="form-group col-md-6">
+            <label for="maxPriceField">Максимальная цена</label>
+            <input class="form-control" type="text" ng-model="filters.maxPrice" id="maxPriceField">
+        </div>
+        <br>
+        <div class="form-group col-md-6">
+            <label for="titleField">Отсортировать по названию</label>
+            <input class="form-control" type="text" ng-model="filters.titleLike" id="titleField">
+        </div>
+        <br>
+        <div>
+            <button class="btn btn-primary" type="submit">Найти</button>
+        </div>
+    </form>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Title</td>
+            <td>Price</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tr ng-repeat="p in productsPage">
+            <td>{{p.id}}</td>
+            <td>{{p.title}}</td>
+            <td>{{p.price}}</td>
+            <td>
+                <button class="btn btn-warning" ng-click="addToCart(p.id)">В корзину</button>
+            </td>
+        </tr>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li ng-repeat="page in navList" class="page-item">
+                <a class="page-link" ng-click="showPage(page)">{{page}}</a>
+            </li>
+        </ul>
+    </nav>
+</div>

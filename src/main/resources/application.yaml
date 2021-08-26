@@ -13,8 +13,12 @@ server:
       properties:
         hibernate:
           dialect: org.hibernate.dialect.H2Dialect
+      open-in-view: false
     h2:
       console:
         enabled: true
         settings:
           web-allow-others: false
+jwt:
+  lifetime: 3600000
+  secret: secret78689hgvfjuhb

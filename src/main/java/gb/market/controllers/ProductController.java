@@ -8,7 +8,6 @@ import gb.market.exceptions.ResourceNotFoundException;
 import gb.market.model.Product;
 import gb.market.services.ProductService;
 import org.springframework.data.domain.Page;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;

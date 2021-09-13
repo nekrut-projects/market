@@ -32,4 +32,8 @@ public class ProductService {
     public Page<Product> showPage(int pageNumber, int size, Map<String, String> filters) throws InvalidInputDataException {
         return productRepository.findAll(productSpecService.addFilters(filters), PageRequest.of(pageNumber, size));
     }
+
+    public List<Product> getAll(){
+        return Collections.unmodifiableList(productRepository.findAll());
+    }
 }

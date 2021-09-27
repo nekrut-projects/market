@@ -1,6 +1,6 @@
 <div>
     <h2>Products list</h2>
-    <form method="get" novalidate ng-submit="showPage(1)">
+    <form method="get" novalidate ng-submit="showPage()">
         <div class="form-group col-md-6">
             <label for="minPriceField">Минимальная цена</label>
             <input class="form-control" type="text" ng-model="filters.minPrice" id="minPriceField">
@@ -13,11 +13,11 @@
         <br>
         <div class="form-group col-md-6">
             <label for="titleField">Отсортировать по названию</label>
-            <input class="form-control" type="text" ng-model="filters.titleLike" id="titleField">
+            <input class="form-control" type="text" ng-model="filters.title" id="titleField">
         </div>
         <br>
         <div>
-            <button class="btn btn-primary" type="submit">Найти</button>
+            <button class="btn btn-primary" type="submit">Применить</button>
         </div>
     </form>
     <br>

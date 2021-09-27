@@ -22,10 +22,11 @@ import java.util.List;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductService productService;
-    private final Cart cart;
+    private final CartService cartService;
 
     @Transactional
     public void createOrder(User user, String address, String phone) {
+        Cart cart = cartService.getCurrentCart(cartService.getCartUuidFromSuffix(user.getName()));
         Order order = new Order();
         order.setPrice(cart.getPrice());
         order.setOrderItems(new ArrayList<>());
@@ -43,6 +44,7 @@ public class OrderService {
         }
         orderRepository.save(order);
         cart.clear();
+        cartService.updateCart(cartService.getCartUuidFromSuffix(user.getName()), cart);
     }
 
     public List<Order> findByUser(User user) {
@@ -54,7 +56,6 @@ public class OrderService {
         return order.getOrderItems();
     }
 
-    @Transactional
     public List<Order> findByUsername(String username) {
         return orderRepository.findByUsername(username);
     }

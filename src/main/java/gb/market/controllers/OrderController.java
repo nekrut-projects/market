@@ -1,7 +1,6 @@
 package gb.market.controllers;
 
 import gb.market.dto.OrderDto;
-import gb.market.dto.OrderItemDto;
 import gb.market.exceptions.InvalidInputDataException;
 import gb.market.model.User;
 import gb.market.services.OrderService;
@@ -12,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static gb.market.utils.Mapper.mappingDto;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -35,13 +35,13 @@ public class OrderController {
 
     @GetMapping("/orders")
     public List<OrderDto> getUserOrders(Principal principal) {
-        return orderService.findByUsername(principal.getName()).stream().map(OrderDto::new).collect(Collectors.toList());
+        return mappingDto(orderService.findByUsername(principal.getName()));
     }
 
-    @GetMapping("/order/{id}")
-    public List<OrderItemDto>showInfoOrder(@PathVariable("id") Long id){
-        return orderService.getItemsOrder(id).stream().map(oi -> new OrderItemDto(oi)).collect(Collectors.toList());
-    }
+//    @GetMapping("/order/{id}")
+//    public List<OrderItemDto>showInfoOrder(@PathVariable("id") Long id){
+//        return orderService.getItemsOrder(id).stream().map(oi -> new OrderItemDto(oi)).collect(Collectors.toList());
+//    }
 
     private void checkAddress(String address, List<String> errors){
         if (address == null || address.trim().isEmpty()){
@@ -50,7 +50,7 @@ public class OrderController {
     }
 
     private void checkPhone(String phone, List<String> errors){
-        if (phone == null || phone.trim().isEmpty() || phone.length() != 11){
+        if (phone == null || phone.trim().isEmpty()){
             errors.add(String.format("Неверно указан телефон: \"%s\"", phone));
         }
     }

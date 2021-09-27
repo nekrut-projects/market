@@ -21,11 +21,18 @@ public class OrderItemDto {
         this.quantity = 1;
     }
 
-    public OrderItemDto(OrderItem orderItem) {
-        this.id = orderItem.getId();
-        this.productDto = new ProductDto(orderItem.getProduct());
-        this.price = orderItem.getPrice();
-        this.quantity = orderItem.getQuantity();
+//    public OrderItemDto(OrderItem orderItem) {
+//        this.id = orderItem.getId();
+//        this.productDto = new ProductDto(orderItem.getProduct());
+//        this.price = orderItem.getPrice();
+//        this.quantity = orderItem.getQuantity();
+//    }
+
+    public OrderItemDto(Long id, BigDecimal price, int quantity, ProductDto productDto) {
+        this.id = id;
+        this.price = price;
+        this.quantity = quantity;
+        this.productDto = productDto;
     }
 
     public void changeQuantity(int amount) {

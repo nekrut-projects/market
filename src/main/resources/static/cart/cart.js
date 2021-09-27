@@ -3,7 +3,7 @@ angular.module('market').controller('cartController', function ($scope, $http, $
 
     $scope.showCart = function(){
         $http({
-            url: contextPath + '/api/v1/cart',
+            url: contextPath + '/api/v1/cart/' + $localStorage.guestCartUuid,
             method: 'GET'
         }).then(function (response) {
             console.log(response);
@@ -13,16 +13,16 @@ angular.module('market').controller('cartController', function ($scope, $http, $
 
     $scope.clearCart = function(){
         $http({
-            url: contextPath + '/api/v1/cart/clear',
+            url: contextPath + '/api/v1/cart/' + $localStorage.guestCartUuid + '/clear',
             method: 'GET'
         }).then(function(response){
             $scope.showCart();
         });
     };
 
-    $scope.delItemCart = function(id){
+    $scope.delItemFromCart = function(id){
         $http({
-            url: contextPath + '/api/v1/cart/del/' + id,
+            url: contextPath + '/api/v1/cart/' + $localStorage.guestCartUuid + '/del/' + id,
             method: 'GET'
         }).then(function(response){
             $scope.showCart();
@@ -32,7 +32,7 @@ angular.module('market').controller('cartController', function ($scope, $http, $
 
     $scope.addToCart = function (productId) {
         $http({
-            url: contextPath + '/api/v1/cart/add/' + productId,
+            url: contextPath + '/api/v1/cart/' + $localStorage.guestCartUuid + '/add/' + productId,
             method: 'GET'
         }).then(function (response) {
             $scope.showCart();
@@ -41,7 +41,7 @@ angular.module('market').controller('cartController', function ($scope, $http, $
 
     $scope.decreaseQuantity = function(itemId) {
         $http({
-            url: contextPath + '/api/v1/cart/item/' + itemId + '/decrease/',
+            url: contextPath + '/api/v1/cart/' + $localStorage.guestCartUuid + '/decrease/' + itemId,
             method: 'GET'
         }).then(function() {
             $scope.showCart();
@@ -50,7 +50,7 @@ angular.module('market').controller('cartController', function ($scope, $http, $
 
     $scope.increaseQuantity = function(itemId) {
         $http({
-            url: contextPath + '/api/v1/cart/item/' + itemId + '/increase/',
+            url: contextPath + '/api/v1/cart/' + $localStorage.guestCartUuid + '/increase/' + itemId,
             method: 'GET'
         }).then(function(){
             $scope.showCart();

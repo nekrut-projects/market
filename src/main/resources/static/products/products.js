@@ -7,10 +7,9 @@ angular.module('market').controller('productsController', function ($scope, $htt
             method: 'GET',
             params: {
                 page: pageNumber,
-//                filters: $scope.filters != null ? $scope.filters : null
                 minPrice: $scope.filters ? $scope.filters.minPrice : null,
                 maxPrice: $scope.filters ? $scope.filters.maxPrice : null,
-                titleLike: $scope.filters ? $scope.filters.titleLike : null
+                title: $scope.filters ? $scope.filters.title : null
             }
         }).then(
               function successCallback(response) {
@@ -53,7 +52,7 @@ angular.module('market').controller('productsController', function ($scope, $htt
 
     $scope.addToCart = function (productId) {
         $http({
-            url: contextPath + '/api/v1/cart/add/' + productId,
+            url: contextPath + '/api/v1/cart/' + $localStorage.guestCartUuid + '/add/' + productId,
             method: 'GET'
         }).then(function (response) {
         console.log(response)
